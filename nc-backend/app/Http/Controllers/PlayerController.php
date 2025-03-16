@@ -38,7 +38,7 @@ class PlayerController extends Controller
             'class' => 'nullable|string|max:50',
             'power_screenshot' => 'nullable|image|max:2048',
             'power' => 'nullable|integer',
-        ]);
+        ]); 
 
         $playerData = $request->only(['ign', 'level', 'class', 'power']);
 
