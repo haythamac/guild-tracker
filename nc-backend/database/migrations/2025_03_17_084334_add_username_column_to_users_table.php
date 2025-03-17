@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('players', function (Blueprint $table) {
-            $table->string('guild')->nullable()->default('Paragon丶');
+        Schema::table('users', function (Blueprint $table) {
+            $table->string('username')->unique();
         });
     }
 
@@ -21,8 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('players', function (Blueprint $table) {
-            $table->dropColumn('guild');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('username');
         });
     }
 };

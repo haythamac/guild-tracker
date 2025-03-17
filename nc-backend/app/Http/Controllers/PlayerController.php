@@ -20,7 +20,7 @@ class PlayerController extends Controller
 
     public function index()
     {
-        return Player::all();
+        return response()->json(Player::all());
     }
 
     public function show(Player $player)

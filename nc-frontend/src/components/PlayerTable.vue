@@ -37,8 +37,9 @@ async function deletePlayer(playerId) {
         const response = await fetch(`http://nc-backend.test/api/players/${playerId}`, {
             method: 'DELETE',
             headers: {
-                'Content-Type': 'application/json'
-            }
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
         });
 
         if (!response.ok) {

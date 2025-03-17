@@ -3,6 +3,7 @@ import { ref, onMounted } from 'vue';
 import Input from '../components/Input.vue';
 import Submit from '../components/Submit.vue';
 import Dropdown from '../components/Dropdown.vue';
+import Navbar from '../components/Navbar.vue';
 
 const ign = ref('');
 const userClass = ref('');
@@ -23,7 +24,8 @@ async function submitForm() {
         const response = await fetch('http://nc-backend.test/api/players', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
             },
             body: JSON.stringify(formData)
         });
@@ -45,6 +47,7 @@ async function submitForm() {
 </script>
 
 <template>
+    <Navbar />  
     <div class="flex items-center justify-center min-h-screen">
         <div class="grid place-items-center border-2 border-gray-200 rounded-md shadow-md p-8">
             <header>Apply to guild</header>
