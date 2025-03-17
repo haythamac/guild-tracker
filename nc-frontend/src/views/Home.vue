@@ -1,10 +1,15 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import Input from '../components/Input.vue';
 import Submit from '../components/Submit.vue';
+import Dropdown from '../components/Dropdown.vue';
 
 const ign = ref('');
 const userClass = ref('');
+const userLevel = ref('');
+const userPower = ref('');
+
+let classes = ['General', 'Impaler', 'Knight', 'Slayer', 'Sniper', 'Assassin', 'Chaser', 'Mage', 'Cleric'];
 
 async function submitForm() {
     const formData = {
@@ -35,6 +40,8 @@ async function submitForm() {
         alert('Form submission failed!');
     }
 }
+
+
 </script>
 
 <template>
@@ -42,7 +49,7 @@ async function submitForm() {
         <div class="grid place-items-center border-2 border-gray-200 rounded-md shadow-md p-8">
             <header>Apply to guild</header>
             <Input label="In-game name" v-model="ign" />
-            <Input label="Class" v-model="userClass" />
+            <Dropdown label="Class" v-model="userClass" :options="classes" />
             <Input label="Level" v-model="userLevel" />
             <Input label="Growth rate" v-model="userPower" />
 

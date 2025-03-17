@@ -13,7 +13,9 @@ return new class extends Migration
     {
         Schema::table('players', function (Blueprint $table) {
             // Add new columns
-            $table->integer('power')->nullable(); // Make sure power is an integer if needed
+            if (!Schema::hasColumn('players', 'power')) {
+                $table->integer('power')->nullable(); // Make sure power is an integer if needed
+            }
             $table->string('power_screenshot_path')->nullable();
             $table->boolean('power_is_processed')->default(false);
             $table->index('ign'); // Adding an index for 'ign'
@@ -37,6 +39,9 @@ return new class extends Migration
             // Remove newly added columns
             $table->dropColumn(['power_screenshot_path', 'power_is_processed']);
             $table->dropIndex(['ign']); // Removing the index on rollback
+            if (Schema::hasColumn('players', 'power')) {
+                $table->dropColumn('power');
+            }
         });
     }
 };
