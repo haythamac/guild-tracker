@@ -1,5 +1,6 @@
 <script setup>
-import { defineProps, defineEmits } from 'vue';
+import { defineProps, defineEmits, ref } from 'vue';
+import PlayerUpdateModal from './modals/PlayerUpdateModal.vue';
 
 const props = defineProps({
     players: Array
@@ -7,8 +8,28 @@ const props = defineProps({
 
 const emit = defineEmits(['playerDeleted']);
 
+const showModal = ref(false);
+const selectedPlayer = ref(null);
+
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+function openUpdateModal(player) {
+    selectedPlayer.value = { ...player };
+    showModal.value = true;
+}
+
+function closeUpdateModal() {
+    showModal.value = false;
+}
+
+function updatePlayer(updatedPlayer) {
+    const index = props.players.findIndex(player => player.id === updatedPlayer.id);
+    if (index !== -1) {
+        props.players[index] = updatedPlayer;
+    }
+    showModal.value = false;
 }
 
 async function deletePlayer(playerId) {
@@ -206,7 +227,10 @@ async function deletePlayer(playerId) {
                                         </td>
                                         <td class="px-4 py-4 text-sm whitespace-nowrap">
                                             <div class="flex items-center gap-x-6">
-                                                <button class="text-gray-500 transition-colors duration-200 hover:text-indigo-500 focus:outline-none">
+                                                <button 
+                                                    @click.prevent="openUpdateModal(player)" 
+                                                    class="text-gray-500 transition-colors duration-200 hover:text-indigo-500 focus:outline-none"
+                                                    >
                                                     Update
                                                 </button>
                                                 <button @click="deletePlayer(player.id)" class="text-red-500 transition-colors duration-200 hover:text-indigo-500 focus:outline-none">
@@ -266,6 +290,12 @@ async function deletePlayer(playerId) {
                 </a>
             </div>
         </section>
+        <PlayerUpdateModal
+            :player="selectedPlayer"
+            :showModal="showModal"
+            @close="closeUpdateModal"
+            @updatePlayer="updatePlayer"
+        />
     </div>
 
 </template>

@@ -15,6 +15,8 @@ class Player extends Model
         'power_screenshot_path',
         'power_is_processed',
         'level',
+        'status',
+        'guild',
         'class'
     ];
 

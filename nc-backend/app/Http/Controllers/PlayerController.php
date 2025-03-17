@@ -73,13 +73,15 @@ class PlayerController extends Controller
     {
         $request->validate([
             'ign' => 'sometimes|max:255',
-            'level' => 'nullable|integer',
-            'class' => 'nullable|string|max:50',
-            'power' => 'nullable|integer',
+            'level' => 'integer',
+            'class' => 'string|max:255',
+            'power' => 'integer',
+            'guild' => 'string|max:255',
+            'status' => 'string|max:50',
             'power_screenshot' => 'nullable|image|max:2048',
         ]);
         
-        $playerData = $request->only(['ign', 'level', 'class', 'power']);
+        $playerData = $request->only(['ign', 'level', 'class', 'power', 'guild', 'status']);
 
         // Handle power screenshot if provided
         if($request->hasFile('power_screenshot')) {
