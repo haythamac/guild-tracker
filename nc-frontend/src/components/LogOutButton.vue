@@ -5,9 +5,11 @@
 </template>
 
 <script setup>
+import { inject } from 'vue';
+const API_BASE_URL = inject('API_BASE_URL');
 const logout = async () => {
   try {
-    const response = await fetch('/api/logout', {
+    const response = await fetch(`${API_BASE_URL}/api/logout`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

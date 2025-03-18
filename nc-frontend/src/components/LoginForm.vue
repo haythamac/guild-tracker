@@ -1,29 +1,36 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, inject } from 'vue';
 import { useRouter } from 'vue-router';
 
 const username = ref('');
 const password = ref('');
 const router = useRouter();
-
+const API_BASE_URL = inject('API_BASE_URL');
 const handleSubmit = async () => {
     try {
-        const response = await fetch(`http://nc-backend.test/api/login?username=${username.value}&password=${password.value}`, {
+        const response = await fetch(`${API_BASE_URL}/api/login`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
-            }
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            credentials: 'include', // Important for cookies (CSRF, session)
+            body: JSON.stringify({
+                username: username.value,
+                password: password.value
+            })
         });
 
         if (!response.ok) {
-            throw new Error('Network response was not ok');
+            const errorData = await response.json();
+            throw new Error(errorData.message || 'Login failed');
         }
 
         const data = await response.json();
         localStorage.setItem('token', data.token);
         router.push('/');
     } catch (error) {
-        alert('Login failed');
+        alert(error.message);
     }
 };
 </script>

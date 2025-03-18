@@ -1,11 +1,11 @@
 <script setup>
-import { defineProps, defineEmits, ref } from 'vue';
+import { defineProps, defineEmits, ref, inject } from 'vue';
 import PlayerUpdateModal from './modals/PlayerUpdateModal.vue';
 
 const props = defineProps({
     players: Array
 });
-
+const API_BASE_URL = inject('API_BASE_URL'); // Inject the global API base URL
 const emit = defineEmits(['playerDeleted']);
 
 const showModal = ref(false);
@@ -34,7 +34,7 @@ function updatePlayer(updatedPlayer) {
 
 async function deletePlayer(playerId) {
     try {
-        const response = await fetch(`http://nc-backend.test/api/players/${playerId}`, {
+        const response = await fetch(`${API_BASE_URL}/api/players/${playerId}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',

@@ -1,5 +1,5 @@
 <script setup>
-import LogOutButton from './LogoutButton.vue';
+import LogOutButton from './LogOutButton.vue';
 import { computed } from 'vue';
 
 const isLoggedIn = computed(() => !!localStorage.getItem('token'));

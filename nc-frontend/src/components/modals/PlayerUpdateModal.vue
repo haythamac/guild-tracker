@@ -1,6 +1,6 @@
 <script setup>
-import { ref, reactive, watch, onMounted } from 'vue';
-
+import { ref, reactive, watch, onMounted, inject } from 'vue';
+const API_BASE_URL = inject('API_BASE_URL');
 const props = defineProps({
     player: {
         type: Object,
@@ -72,7 +72,7 @@ async function updatePlayer() {
 
     try {
         isLoading.value = true;
-        const response = await fetch(`http://nc-backend.test/api/players/${formData.id}`, {
+        const response = await fetch(`${API_BASE_URL}/api/players/${formData.id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',

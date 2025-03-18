@@ -1,40 +1,50 @@
 <script setup>
+// This would be in a separate Input.vue file
 import { defineProps, defineEmits } from 'vue';
 
 const props = defineProps({
-    label: String,
-    modelValue: [String, Number]
+  label: String,
+  modelValue: [String, Number],
+  placeholder: {
+    type: String,
+    default: ''
+  },
+  type: {
+    type: String,
+    default: 'text'
+  },
+  min: {
+    type: [String, Number],
+    default: null
+  }
 });
 
 const emit = defineEmits(['update:modelValue']);
 </script>
 
 <template>
-    <label :for="label"
-        class="relative block my-8 p-4 rounded-md border border-gray-300 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600">
-        <input :type="typeof props.modelValue === 'number' ? 'number' : 'text'" :id="label"
-        class="peer w-full border-none bg-transparent placeholder-transparent focus:border-transparent focus:ring-0 focus:outline-none no-spinner"
-        :placeholder="label" :value="props.modelValue" @input="$emit('update:modelValue', $event.target.value)" />
-
-        <span
-        class="pointer-events-none absolute left-2.5 top-0 -translate-y-1/2 bg-white px-1 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">
-        {{ label }}
-        </span>
-    </label>
+  <div class="relative">
+    <label :for="label" class="text-sm font-medium text-gray-700">{{ label }}</label>
+    <input 
+      :type="type"
+      :id="label"
+      class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-all"
+      :placeholder="placeholder"
+      :value="modelValue"
+      :min="min"
+      @input="$emit('update:modelValue', $event.target.value)"
+    />
+  </div>
 </template>
 
 <style scoped>
-label {
-    background-color: #f9fafb;
-}
-
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 input[type="number"] {
-    -moz-appearance: textfield;
+  -moz-appearance: textfield;
 }
 </style>
